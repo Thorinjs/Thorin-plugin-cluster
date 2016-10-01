@@ -1,7 +1,7 @@
 {
   "name": "thorin-plugin-cluster",
   "author": "UNLOQ Systems",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "dependencies": {
     "bufferutil": "1.2.1",
     "utf-8-validate": "1.2.1",
