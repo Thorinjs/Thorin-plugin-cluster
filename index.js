@@ -16,7 +16,7 @@ module.exports = function (thorin, opt, pluginName) {
       connect: false
     },
     gateway: 'https://discovery.sconfig.io/dispatch', // the discovery server
-    timeout: 5000,        // the default timeout between service calls.
+    timeout: 20000,        // the default timeout between service calls.
     token: null,          // the shared security token
     interval: 5000,       // the interval in ms between registry calls
     service: {            // service information
