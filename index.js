@@ -29,11 +29,14 @@ module.exports = function (thorin, opt, pluginName) {
       port: 6501          // the port to use for incoming RPC. IF set to null, we will choose a random port between 40000-50000
     }
   }, opt);
-  opt.service.host = thorin.getIp(opt.service.host);
-  if(opt.service.port == null) {
-    let randPort = Math.floor(Math.random() * (MAX_RAND_PORT - MIN_RAND_PORT) + MIN_RAND_PORT);
-    opt.service.port = randPort;
+  if(opt.service) {
+    if(opt.service.host) opt.service.host = thorin.getIp(opt.service.host);
+    if(opt.service.port == null) {
+      let randPort = Math.floor(Math.random() * (MAX_RAND_PORT - MIN_RAND_PORT) + MIN_RAND_PORT);
+      opt.service.port = randPort;
+    }
   }
+
   const pluginObj = initCluster(thorin, opt);
   initMiddleware(thorin, opt, pluginObj);
   initBoot(thorin, opt, pluginObj);
