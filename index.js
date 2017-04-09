@@ -20,21 +20,32 @@ module.exports = function (thorin, opt, pluginName) {
     heartbeat: 20000,
     token: null,          // the shared security token
     interval: 8000,       // the interval in ms between registry calls
+    delay: 0,                               // the number of milliseconds to delay the initial registration. Default disabled.
+    versioned: false,     // if set to true, dispatching will keep count of the acive versioned items.
     service: {            // service information
       type: thorin.app,   // the microservice kind
       name: thorin.id,    // the microservice name
       proto: 'ws',        // the proto that will be used for communication
+      version: null,                          // The numeric version of the current application version. This is to roll out older version versions of the app, so that we have zero-downtime upgrades
+      // IF this variable is not set, we look into process.env.APP_VERSION and if it is a number, we use it.
       ttl: 10000,         // the default TTL for this node.
       tags: [],           // additional node tags.
       host: 'internal',   // the host to use for inter-communication. See thorin.getIp()
       port: 6501          // the port to use for incoming RPC. IF set to null, we will choose a random port between 40000-50000
     }
   }, opt);
-  if(opt.service) {
-    if(opt.service.host) opt.service.host = thorin.getIp(opt.service.host);
-    if(opt.service.port == null) {
+  if (typeof opt.service === 'object' && opt.service) {
+    if (opt.service.host) opt.service.host = thorin.getIp(opt.service.host);
+    if (opt.service.port == null) {
       let randPort = Math.floor(Math.random() * (MAX_RAND_PORT - MIN_RAND_PORT) + MIN_RAND_PORT);
       opt.service.port = randPort;
+    }
+    if (opt.service.version == null && typeof process.env.APP_VERSION !== 'undefined') {
+      let ver = process.env.APP_VERSION;
+      if (typeof ver === 'string') ver = parseInt(ver, 10);
+      if (typeof ver === 'number' && ver > 0) {
+        opt.service.version = ver;
+      }
     }
   }
 
