@@ -32,7 +32,9 @@ module.exports = function (thorin, opt, pluginName) {
       tags: [],           // additional node tags.
       host: 'internal',   // the host to use for inter-communication. See thorin.getIp()
       port: 6501          // the port to use for incoming RPC. IF set to null, we will choose a random port between 40000-50000
-    }
+    },
+    alias: {  // aliases for services. (eg: service-name.namespace : https://api.myservice.com
+    },
   }, opt);
   if (typeof opt.service === 'object' && opt.service) {
     if (opt.service.host) opt.service.host = thorin.getIp(opt.service.host);
